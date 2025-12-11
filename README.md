@@ -14,8 +14,8 @@
 
 ### 2. Clonar o repositório
 ```bash
-git clone https://github.com/<seu-usuario>/<seu-repo>.git
-cd 
+git clone https://github.com/lehcibele/atividade-sd-parte-1.git
+cd atividade-sd-parte-1
 ```
 
 ### 3. Criar ambiente virtual

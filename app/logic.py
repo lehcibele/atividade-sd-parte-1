@@ -10,7 +10,7 @@ class TotalOrderState:
     def __init__(self, process_id: int, num_processes: int, initial_clock: int = 0):
         self.process_id = process_id
         self.num_processes = num_processes
-        self.clock = initial_clock
+        self.clock = initial_clock # valor inicial do relógio lógico de Lamport
         self.queue = []
         self.acks = {}
         self.has_token = (self.process_id == 0)  # só P0 começa com token
@@ -19,15 +19,15 @@ class TotalOrderState:
         self.in_election = False       # Flag de eleição em andamento
         self.alive_peers = set()       # Peers que responderam "ok" (opcional para depuração)
 
+    # Relógio lógico de Lamport - atualiza o relógio ao enviar uma mensagem
     def tick_send(self) -> int:
-        """Incrementa relógio ao enviar mensagem"""
         self.clock += 1
         return self.clock
 
+    # Relógio lógico de Lamport - atualiza o relógio ao receber uma mensagem ou ACK
     def tick_receive(self, incoming_ts: int):
-        """Atualiza relógio ao receber mensagem ou ACK"""
         self.clock = max(self.clock, incoming_ts) + 1
-
+    
     async def enqueue_message(self, msg: dict):
         """Enfileira mensagem recebida"""
         self.queue.append(msg)
